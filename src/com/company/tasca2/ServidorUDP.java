@@ -8,8 +8,8 @@ import java.net.SocketException;
 
 public class ServidorUDP {
     DatagramSocket socket;
-
-    //Instàciar el socket
+    SecretNum sNum= new SecretNum();
+    //Instanciar el socket
     public void init(int port) throws SocketException {
         socket = new DatagramSocket(port);
     }
@@ -19,9 +19,9 @@ public class ServidorUDP {
         byte [] sendingData;
         InetAddress clientIP;
         int clientPort;
-        SecretNum sNum= new SecretNum();
 
-        sNum.pensa(100);
+        // es pensa un numero secret quan inicia el server
+        sNum.pensa(10);
 
         while(true) {
             DatagramPacket packet = new DatagramPacket(receivingData,1024);
@@ -35,13 +35,18 @@ public class ServidorUDP {
         }
     }
 
-    //El server retorna al client el mateix missatge que li arriba però en majúscules
+    //El server retorna al client un missatge depenent de la comprovació del num.  més gran, més petit, correcte.
     private byte[] processData(byte[] data, int lenght) {
         String msg = new String(data,0,lenght);
-        msg = msg.toUpperCase();
-        //Imprimir el missatge rebut i retornar-lo
-        System.out.println(msg);
-        return msg.getBytes();
+
+        // comprovar si es el numero secret es correcte
+
+
+
+
+        //Imprimir el missatge que toca
+        System.out.println((msg));
+        return sNum.comprova(msg).getBytes();
     }
 
     public static void main(String[] args) {

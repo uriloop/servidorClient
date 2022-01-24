@@ -9,7 +9,7 @@ public class ClientUDP {
     int serverPort;
     DatagramSocket socket;
     Scanner sc;
-    String nom;
+    String enter;
 
     public ClientUDP() {
         sc = new Scanner(System.in);
@@ -40,16 +40,16 @@ public class ClientUDP {
     private byte[] getDataToRequest(byte[] data, int length) {
         String rebut = new String(data,0, length);
         //Imprimeix el nom del client + el que es reb del server i demana més dades
-        System.out.print(nom+"("+rebut+")"+"> ");
+        System.out.println(rebut);
         String msg = sc.nextLine();
         return msg.getBytes();
     }
 
     //primer missatge que se li envia al server
     private byte[] getFirstRequest() {
-        System.out.println("Entra el teu nom: ");
-        nom = sc.nextLine();
-        return nom.getBytes();
+        System.out.println("Escriu un enter: ");
+        enter = sc.nextLine();
+        return enter.getBytes();
     }
 
     //Si se li diu adeu al server el client es desconnecta
