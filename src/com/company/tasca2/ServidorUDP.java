@@ -10,6 +10,7 @@ public class ServidorUDP {
     DatagramSocket socket;
     SecretNum sNum= new SecretNum();
     //Instanciar el socket
+    int intents=0;
     public void init(int port) throws SocketException {
         socket = new DatagramSocket(port);
     }
@@ -37,16 +38,24 @@ public class ServidorUDP {
 
     //El server retorna al client un missatge depenent de la comprovació del num.  més gran, més petit, correcte.
     private byte[] processData(byte[] data, int lenght) {
+
         String msg = new String(data,0,lenght);
-
-        // comprovar si es el numero secret es correcte
-
-
-
+        intents++;
 
         //Imprimir el missatge que toca
-        System.out.println((msg));
-        return sNum.comprova(msg).getBytes();
+        System.out.println((msg)+" "+intents+" intents");
+
+        String result;
+
+        // si el numero és correcte, es reinicia el numSecret i els intents
+        if ((result = sNum.comprova(msg)).equals("Correcte")){
+            intents=0;
+            sNum.pensa(10);
+            return (" Correcte! El numero secret és "+ new String(data,0,lenght) +"  Torna a començar").getBytes();
+        }
+
+        // retorna el resultat
+        return (result+" | "+intents+" intents").getBytes();
     }
 
     public static void main(String[] args) {

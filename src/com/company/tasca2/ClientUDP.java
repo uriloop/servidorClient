@@ -10,6 +10,7 @@ public class ClientUDP {
     DatagramSocket socket;
     Scanner sc;
     String enter;
+    int intents=0;
 
     public ClientUDP() {
         sc = new Scanner(System.in);
@@ -39,7 +40,6 @@ public class ClientUDP {
     //Resta de conversa que se li envia al server
     private byte[] getDataToRequest(byte[] data, int length) {
         String rebut = new String(data,0, length);
-        //Imprimeix el nom del client + el que es reb del server i demana més dades
         System.out.println(rebut);
         String msg = sc.nextLine();
         return msg.getBytes();
