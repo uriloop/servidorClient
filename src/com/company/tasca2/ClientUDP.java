@@ -2,6 +2,7 @@ package com.company.tasca2;
 
 import java.io.IOException;
 import java.net.*;
+import java.nio.ByteBuffer;
 import java.util.Scanner;
 
 public class ClientUDP {
@@ -9,7 +10,7 @@ public class ClientUDP {
     int serverPort;
     DatagramSocket socket;
     Scanner sc;
-    String enter;
+    int enter;
     int intents=0;
 
     public ClientUDP() {
@@ -39,17 +40,22 @@ public class ClientUDP {
 
     //Resta de conversa que se li envia al server
     private byte[] getDataToRequest(byte[] data, int length) {
-        String rebut = new String(data,0, length);
-        System.out.println(rebut);
-        String msg = sc.nextLine();
-        return msg.getBytes();
+        intents++;
+        int rebut= ByteBuffer.wrap(data).getInt();
+        if (rebut==0) {System.out.println("Correcte!  | "+intents+" intents");
+        intents=0;}
+        if(rebut==1) System.out.println("Més petit  | "+intents+" intents");
+        if (rebut==2) System.out.println("Més gran  | "+intents+" intents");
+        enter = sc.nextInt();
+        byte[] resposta = ByteBuffer.allocate(4).putInt(enter).array();
+        return resposta;
     }
 
     //primer missatge que se li envia al server
     private byte[] getFirstRequest() {
         System.out.println("Escriu un enter: ");
-        enter = sc.nextLine();
-        return enter.getBytes();
+        enter = sc.nextInt();
+        return ByteBuffer.allocate(4).putInt(enter).array();
     }
 
     //Si se li diu adeu al server el client es desconnecta

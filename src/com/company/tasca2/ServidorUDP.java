@@ -5,12 +5,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
 
 public class ServidorUDP {
     DatagramSocket socket;
     SecretNum sNum= new SecretNum();
     //Instanciar el socket
-    int intents=0;
+
     public void init(int port) throws SocketException {
         socket = new DatagramSocket(port);
     }
@@ -38,28 +39,12 @@ public class ServidorUDP {
 
     //El server retorna al client un missatge depenent de la comprovació del num.  més gran, més petit, correcte.
     private byte[] processData(byte[] data, int lenght) {
-
-        String msg = new String(data,0,lenght);
-        intents++;
-
+        Integer msg=  ByteBuffer.wrap(data).getInt();
         //Imprimir el missatge que toca
-        System.out.println((msg)+" "+intents+" intents");
-
-        int result;
-
+        System.out.println(msg);
         // si el numero és correcte, es reinicia el numSecret i els intents
-        if ((result = sNum.comprova(Integer.parseInt(msg)))==0){
-            intents=0;
-            sNum.pensa(10);
-            return (" Correcte! El numero secret és "+ new String(data,0,lenght) +"  Torna a començar").getBytes();
-        }
-        if ((result = sNum.comprova(Integer.parseInt(msg)))==1){
-            return (" Més petit "+" | "+intents+" intents").getBytes();
-        }
-        if ((result = sNum.comprova(Integer.parseInt(msg)))==2){
-            return (" Més gran "+" | "+intents+" intents").getBytes();
-        }
-        return "error".getBytes();
+        byte[] resposta = ByteBuffer.allocate(4).putInt(sNum.comprova(msg)).array();
+        return resposta;
     }
 
     public static void main(String[] args) {

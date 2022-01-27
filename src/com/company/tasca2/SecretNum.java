@@ -9,6 +9,7 @@ public class SecretNum {
 
     public SecretNum() {
         num = 0;
+        System.out.flush();
     }
 
 
