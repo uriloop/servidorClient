@@ -11,13 +11,6 @@ public class SecretNum {
         num = 0;
     }
 
-    public SecretNum(int n) {
-        pensa(n);
-    }
-
-    public void pensa(int max) {
-         setNum((int) ((Math.random() * max) + 1));
-    }
 
     public int comprova(int n) {
         if (num == n) return 0;
@@ -25,11 +18,8 @@ public class SecretNum {
         else return 2;
     }
 
-    public String comprova(String s) {
-        int n = Integer.parseInt(s);
-        if (num == n) return "Correcte";
-        else if (num < n) return "Més petit";
-        else return "Més gran";
+    public void pensa(int max) {
+        setNum((int) ((Math.random() * max) + 1));
     }
 
     public int getNum() {
@@ -39,6 +29,16 @@ public class SecretNum {
     private void setNum(int num) {
         this.num = num;
     }
+    /*public String comprova(String s) {
+        int n = Integer.parseInt(s);
+        if (num == n) return "Correcte";
+        else if (num < n) return "Més petit";
+        else return "Més gran";
+    }*/
+
+    /*public SecretNum(int n) {
+        pensa(n);
+    }*/
 
 
 }

@@ -45,17 +45,21 @@ public class ServidorUDP {
         //Imprimir el missatge que toca
         System.out.println((msg)+" "+intents+" intents");
 
-        String result;
+        int result;
 
         // si el numero és correcte, es reinicia el numSecret i els intents
-        if ((result = sNum.comprova(msg)).equals("Correcte")){
+        if ((result = sNum.comprova(Integer.parseInt(msg)))==0){
             intents=0;
             sNum.pensa(10);
             return (" Correcte! El numero secret és "+ new String(data,0,lenght) +"  Torna a començar").getBytes();
         }
-
-        // retorna el resultat
-        return (result+" | "+intents+" intents").getBytes();
+        if ((result = sNum.comprova(Integer.parseInt(msg)))==1){
+            return (" Més petit "+" | "+intents+" intents").getBytes();
+        }
+        if ((result = sNum.comprova(Integer.parseInt(msg)))==2){
+            return (" Més gran "+" | "+intents+" intents").getBytes();
+        }
+        return "error".getBytes();
     }
 
     public static void main(String[] args) {
